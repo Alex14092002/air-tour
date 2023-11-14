@@ -2,11 +2,12 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import Image from "../Image.jsx";
-
+import Carousel from "../Carousel.jsx";
 export default function IndexPage() {
   return (
     <>
-      <div className=" py-8">
+      <Carousel/>
+      <div className=" py-8 px-6">
         <h1 className="mt-[8%] text-3xl text-center font-bold mt-8">
           TOUR HOT
         </h1>

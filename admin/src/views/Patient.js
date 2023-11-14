@@ -16,7 +16,7 @@ function Tables({ type }) {
   const Delete = async (id) => {
     // Create the DELETE request
     const request = new Request(
-      `http://localhost:8000/api/user/delete/${id}`,
+      `http://localhost:8888/api/user/delete/${id}`,
       {
         method: "DELETE",
       }
@@ -41,7 +41,7 @@ function Tables({ type }) {
 
   useEffect(() => {
     const getData = async () => {
-      const res = await fetch(`http://localhost:8000/api/user`);
+      const res = await fetch(`http://localhost:8888/api/user`);
       const data = await res.json();
 
       setListdata(data);
@@ -81,7 +81,7 @@ function Tables({ type }) {
                               <td>{value.role}</td>
                               <td className="text-center">
                                 <Link
-                                  to={`/uploadPatient/${value._id}`}
+                                  to={`/uploaduser/${value._id}`}
                                   className="btn btn-primary mx-2"
                                 >
                                   Sửa

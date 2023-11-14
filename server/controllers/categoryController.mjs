@@ -1,52 +1,54 @@
-import Tour from "../models/Tour.mjs";
+import Category from "../models/Category.mjs";
 
 const categoryController = {
-  getAllTours: async (req, res) => {
+  getAllCategories: async (req, res) => {
     try {
-      const tours = await Tour.find();
-      res.status(200).json(tours);
+      const categorys = await Category.find();
+      res.status(200).json(categorys);
     } catch (error) {
-      res.status(500).json({ error: "Lỗi khi lấy danh sách tour" });
+      res.status(500).json({ error: "Lỗi khi lấy danh sách danh mục" });
     }
   },
-  getTourById: async (req, res) => {
+  getCategoryById: async (req, res) => {
     try {
-      const Tour = await Tour.findById(req.params.id);
-      if (!tour) {
-        return res.status(404).json({ error: "Tour không tồn tại" });
+      const category = await Category.findById(req.params.id);
+      if (!category) {
+        return res.status(404).json({ error: "Danh mục không tồn tại" });
       }
-      res.status(200).json(tour);
+      res.status(200).json(category);
     } catch (error) {
-      res.status(500).json({ error: "Lỗi khi lấy tour" });
+      res.status(500).json({ error: "Lỗi khi lấy danh mục" });
     }
   },
-  createTour: async (req, res) => {
+  createCategory: async (req, res) => {
     try {
-      const tour = new Tour(req.body);
-      await tour.save();
-      res.status(201).json(tour);
+      const cagegory = new Category({
+        name : req.body.name
+      });
+      await cagegory.save();
+      res.status(200).json(cagegory);
     } catch (error) {
-      res.status(500).json({ error: "Lỗi khi tạo tour mới" });
+      res.status(500).json({ error: "Lỗi khi tạo danh mục mới" });
     }
   },
-  updateTour: async (req, res) => {
+  updateCategory: async (req, res) => {
     try {
-      const tour = await Tour.findByIdAndUpdate(req.params.id, req.body, {
+      const category = await Category.findByIdAndUpdate(req.params.id, req.body, {
         new: true,
       });
-      if (!tour) {
-        return res.status(404).json({ error: "Tour không tồn tại" });
+      if (!category) {
+        return res.status(404).json({ error: "Danh mục không tồn tại" });
       }
-      res.status(200).json(tour);
+      res.status(200).json(category);
     } catch (error) {
       res.status(500).json({ error: "Lỗi khi cập nhật tour" });
     }
   },
-  deleteTour: async (req, res) => {
+  deleteCategory: async (req, res) => {
     try {
-      const tour = await Tour.findByIdAndRemove(req.params.id);
-      if (!tour) {
-        return res.status(404).json({ error: "Tour không tồn tại" });
+      const category = await Category.findByIdAndRemove(req.params.id);
+      if (!category) {
+        return res.status(404).json({ error: "Danh mục không tồn tại" });
       }
       res.status(204).send();
     } catch (error) {

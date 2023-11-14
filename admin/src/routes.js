@@ -7,7 +7,7 @@ import Rtl from "views/Rtl.js";
 import Patient from "views/Patient.js";
 import Typography from "views/Typography.js";
 import UserProfile from "views/UserProfile.js";
-import Lichkham from "./views/Lichkham.js"
+import Tour from "views/Tour";
 import Order from "./views/Order"
 var routes = [
   {
@@ -19,7 +19,7 @@ var routes = [
     layout: "/admin",
   },
   {
-    path: "/patient",
+    path: "/user",
     name: "Quản lý tài khoản",
     rtlName: "الرموز",
     icon: "tim-icons icon-atom",
@@ -35,11 +35,11 @@ var routes = [
   //   layout: "/admin",
   // },
   {
-    path: "/booking",
-    name: "Quản lý lịch khám",
+    path: "/managerBooking",
+    name: "Quản lý tour du lịch",
     rtlName: "إخطارات",
     icon: "tim-icons icon-bell-55",
-    component: <Lichkham type='Lịch khám bệnh'/>,
+    component: <Tour/>,
     layout: "/admin",
   },
   {

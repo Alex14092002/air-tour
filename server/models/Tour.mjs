@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-const TourSchema = new mongoose.Schema({
+const TourSchema = new mongoose.Schema(
     { 
         name : {
             type : String,
@@ -11,15 +11,15 @@ const TourSchema = new mongoose.Schema({
             required: true,
         },
         childrenPrice : {
-            type : Number;
+            type : Number,
             required: true,
         },
         price : {
-            type : Number;
+            type : Number,
             required: true,
         },
         oldPrice : {
-            type : Number;
+            type : Number,
             required: true,
         },
         detail : {
@@ -34,8 +34,19 @@ const TourSchema = new mongoose.Schema({
         category: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Category', // Tham chiếu đến mô hình danh mục
+            required : true
         },
+        idGuide : {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User', // Tham chiếu đến mô hình danh mục
+        },
+        status : {
+            type : String ,
+            enum: ['pending', 'start', 'middle', 'completed', 'cancelled'],
+            default : "pending",
+            required : true
+        }
     },
-    { timestamps: true }
-})
+{ timestamps: true }
+)
 export default mongoose.model('Tour', TourSchema);

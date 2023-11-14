@@ -1,7 +1,5 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-
-// reactstrap components
 import {
   Button,
   Card,
@@ -17,7 +15,7 @@ import {
 } from "reactstrap";
 
 function ProfilePatient() {
-
+  
   const { id } = useParams();
   const [data, setData] = useState({
     username: "",
@@ -30,7 +28,7 @@ function ProfilePatient() {
   
   useEffect(() => {
     const getData = async () => {
-      const res = await fetch(`http://localhost:8000/api/user/${id}`);
+      const res = await fetch(`http://localhost:8888/api/user/${id}`);
       const dataAPI = await res.json();
 
       setData(dataAPI);
@@ -38,6 +36,7 @@ function ProfilePatient() {
 
     getData();
   }, []);
+  console.log(data);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -53,7 +52,7 @@ function ProfilePatient() {
 
     // Send the updated data to the backend
     try {
-      const response = await fetch(`http://localhost:8000/api/user/update/${id}`, {
+      const response = await fetch(`http://localhost:8888/api/user/update/${id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -73,6 +72,11 @@ function ProfilePatient() {
   };
 
 
+  const handleEditorChange = (event, editor) => {
+    const data = editor.getData();
+    console.log(data);
+  };
+  
   return (
     <>
       <div className="content">
@@ -125,6 +129,21 @@ function ProfilePatient() {
                         />
                       </FormGroup>
                     </Col>
+                  
+                  </Row>
+                  <Row>
+                    <Col className="px-md-1" md="3">
+                      <FormGroup>
+                        <label>Họ và tên</label>
+                        <Input
+                          name="username"
+                          value={data.name}
+                          onChange={handleInputChange}
+                          placeholder="Họ và tên"
+                          type="text"
+                        />
+                      </FormGroup>
+                    </Col>
                     <Col md="6">
                       <FormGroup>
                         <label>Vai trò</label>
@@ -135,9 +154,9 @@ function ProfilePatient() {
                           class="form-select"
                           aria-label="Default select example"
                         >
-                          <option value="nurse">Y tá</option>
-                          <option value="doctor">Bác sĩ</option>
-                          <option value="user">Bệnh nhân</option>
+                        
+                          <option value="guide">Hướng dẫn viên</option>
+                          <option value="user">Người dùng</option>
                         </select>
                       </FormGroup>
                     </Col>
@@ -151,7 +170,10 @@ function ProfilePatient() {
             </Card>
           </Col>
         </Row>
+       
       </div>
+
+    
     </>
   );
 }
