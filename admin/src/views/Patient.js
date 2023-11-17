@@ -70,29 +70,32 @@ function Tables({ type }) {
                     </tr>
                   </thead>
                   <tbody>
-                    {listdata &&
+                    {listdata && 
                       listdata.map((value, id) => {
                         console.log(value);
-                        return (
-                          <>
-                            <tr>
-                              <td>{value.username}</td>
-                              <td>{value.email}</td>
-                              <td>{value.role}</td>
-                              <td className="text-center">
-                                <Link
-                                  to={`/uploaduser/${value._id}`}
-                                  className="btn btn-primary mx-2"
-                                >
-                                  Sửa
-                                </Link>
-                                <button onClick={() => Delete(value._id)} className="btn btn-danger mx-2">
-                                  Xoá
-                                </button>
-                              </td>
-                            </tr>
-                          </>
-                        );
+                        if(value.role == 'user'){
+                          return (
+                            <>
+                              <tr>
+                                <td>{value.username}</td>
+                                <td>{value.email}</td>
+                                <td>{value.role}</td>
+                                <td className="text-center">
+                                  <Link
+                                    to={`/uploaduser/${value._id}`}
+                                    className="btn btn-primary mx-2"
+                                  >
+                                    Sửa
+                                  </Link>
+                                  <button onClick={() => Delete(value._id)} className="btn btn-danger mx-2">
+                                    Xoá
+                                  </button>
+                                </td>
+                              </tr>
+                            </>
+                          );
+                        }
+                      
                       })}
                   </tbody>
                 </Table>

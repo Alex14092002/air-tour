@@ -9,6 +9,8 @@ import Typography from "views/Typography.js";
 import UserProfile from "views/UserProfile.js";
 import Tour from "views/Tour";
 import Order from "./views/Order"
+import Guide from './views/Guide'
+import Point from './views/Point'
 var routes = [
   {
     path: "/dashboard",
@@ -20,20 +22,36 @@ var routes = [
   },
   {
     path: "/user",
-    name: "Quản lý tài khoản",
+    name: "Quản lý khách hàng",
     rtlName: "الرموز",
     icon: "tim-icons icon-atom",
     component: <Patient/>,
     layout: "/admin",
   },
-  // {
-  //   path: "/thuoc",
-  //   name: "Quản lý Thuốc",
-  //   rtlName: "خرائط",
-  //   icon: "tim-icons icon-pin",
-  //   component: <Patient type='Y tá'/>,
-  //   layout: "/admin",
-  // },
+  {
+    path: "/guide",
+    name: "Quản lý hướng dẫn viên",
+    rtlName: "الرموز",
+    icon: "tim-icons icon-atom",
+    component: <Guide/>,
+    layout: "/admin",
+  },
+  {
+    path: "/startlocation",
+    name: "Thêm địa điểm khởi hành",
+    rtlName: "الرموز",
+    icon: "tim-icons icon-atom",
+    component: <Point type="pointstart"/>,
+    layout: "/admin",
+  },
+  {
+    path: "/endlocation",
+    name: "Thêm địa điểm kết thúc",
+    rtlName: "الرموز",
+    icon: "tim-icons icon-atom",
+    component: <Point type="pointend"/>,
+    layout: "/admin",
+  },
   {
     path: "/managerBooking",
     name: "Quản lý tour du lịch",
@@ -44,9 +62,17 @@ var routes = [
   },
   {
     path: "/order",
+    name: "Quản lý đơn đặt",
+    rtlName: "إخطارات",
+    icon: "tim-icons icon-bell-55",
+    component: <Order type='Quản lý đặt đơn'/>,
+    layout: "/admin",
+  },
+  {
+    path: "/order",
     name: "Thanh toán",
     rtlName: "ملف تعريفي للمستخدم",
-    icon: "tim-icons icon-single-02",
+    icon: "tim-icons icon-pin",
     component: <Order type='Thanh toán'/>,
     layout: "/admin",
   },

@@ -94,6 +94,7 @@ function ProfilePatient() {
                         <label>Tên tài khoản</label>
                         <Input
                           name="username"
+                          readOnly
                           value={data.username}
                           onChange={handleInputChange}
                           placeholder="tên tài khoản"
@@ -136,7 +137,7 @@ function ProfilePatient() {
                       <FormGroup>
                         <label>Họ và tên</label>
                         <Input
-                          name="username"
+                          name="name"
                           value={data.name}
                           onChange={handleInputChange}
                           placeholder="Họ và tên"

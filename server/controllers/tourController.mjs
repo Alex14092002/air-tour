@@ -15,32 +15,41 @@ const tourController = {
         // Lấy thông tin từ request body
         const {
           name,
+          time,
+          dateStart,
+          locationStart,
+          plant,
+          maxGuest,
+          oldGuest,
+          childGuest,
+          locationEnd,
           des,
           childrenPrice,
-          price,
           oldPrice,
           detail,
           imgDetail,
+          detailLocation,
           category,
         } = req.body;
-    
-        // Kiểm tra xem categoryId có hợp lệ không
-        const categoryId = await Category.findById(category);
-    
-        if (!categoryId) {
-          return res.status(400).json({ success: false, error: "Danh mục tour không tồn tại" });
-        }
-    
+  
         // Tạo một instance của Tour model
         const newTour = new Tour({
           name,
+          time,
+          dateStart,
+          locationStart,
+          plant,
+          maxGuest,
+          oldGuest,
+          childGuest,
+          locationEnd,
           des,
           childrenPrice,
-          price,
           oldPrice,
           detail,
           imgDetail,
-          category: categoryId._id,
+          detailLocation,
+          category,
         });
     
         // Lưu tour mới vào cơ sở dữ liệu
@@ -109,40 +118,50 @@ const tourController = {
     try {
         const tourId = req.params.tourId; // Lấy tourId từ đường dẫn
     
-        // Kiểm tra xem tourId có hợp lệ không
-        // (Điều này phụ thuộc vào cách bạn thiết kế cơ sở dữ liệu và logic xử lý)
-        // Ví dụ: Kiểm tra xem tourId có tồn tại trong cơ sở dữ liệu không
-        // const isValidTour = await Tour.findById(tourId);
-        // if (!isValidTour) {
-        //   return res.status(404).json({ success: false, error: 'Tour không tồn tại' });
-        // }
-    
-        // Lấy dữ liệu cập nhật từ request body
+      
         const {
           name,
+          time,
+          dateStart,
+          locationStart,
+          plant,
+          maxGuest,
+          oldGuest,
+          childGuest,
+          locationEnd,
           des,
           childrenPrice,
-          price,
           oldPrice,
           detail,
           imgDetail,
+          detailLocation,
           category,
           status,
+          idGuide,
         } = req.body;
     
         // Cập nhật thông tin của tour
         const updatedTour = await Tour.findByIdAndUpdate(
           tourId,
           {
-            name,
-            des,
-            childrenPrice,
-            price,
-            oldPrice,
-            detail,
-            imgDetail,
-            category,
-            status,
+          name,
+          time,
+          dateStart,
+          locationStart,
+          plant,
+          maxGuest,
+          oldGuest,
+          childGuest,
+          locationEnd,
+          des,
+          childrenPrice,
+          oldPrice,
+          detail,
+          imgDetail,
+          detailLocation,
+          category,
+          status,
+          idGuide
           },
           { new: true } // Trả về tour đã cập nhật thay vì tour gốc
         );

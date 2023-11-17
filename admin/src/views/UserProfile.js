@@ -1,4 +1,3 @@
-
 import React from "react";
 
 // reactstrap components
@@ -29,7 +28,6 @@ function UserProfile() {
               <CardBody>
                 <Form>
                   <Row>
-                  
                     <Col className="px-md-1" md="3">
                       <FormGroup>
                         <label>Tên tài khoản</label>
@@ -42,9 +40,7 @@ function UserProfile() {
                     </Col>
                     <Col className="pl-md-1" md="4">
                       <FormGroup>
-                        <label htmlFor="exampleInputEmail1">
-                          Email 
-                        </label>
+                        <label htmlFor="exampleInputEmail1">Email</label>
                         <Input placeholder="mike@email.com" type="email" />
                       </FormGroup>
                     </Col>
@@ -70,7 +66,6 @@ function UserProfile() {
                         />
                       </FormGroup>
                     </Col>
-                    
                   </Row>
                   <Row>
                     <Col md="12">
@@ -88,12 +83,13 @@ function UserProfile() {
                     <Col md="12">
                       <FormGroup>
                         <label>Vai trò</label>
-                        <select class="form-select" aria-label="Default select example">
-
-  <option value="1">Hướng dẫn viên</option>
-  <option value="2">Khách hàng</option>
-
-</select>
+                        <select
+                          class="form-select"
+                          aria-label="Default select example"
+                        >
+                          <option value="1">Hướng dẫn viên</option>
+                          <option value="2">Khách hàng</option>
+                        </select>
                       </FormGroup>
                     </Col>
                   </Row>
@@ -106,7 +102,6 @@ function UserProfile() {
               </CardFooter>
             </Card>
           </Col>
-        
         </Row>
       </div>
     </>

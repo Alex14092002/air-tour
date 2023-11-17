@@ -27,14 +27,9 @@ const userController = {
     }
   },
   updateUser: async (req, res) => {
-    const salt = await bcrypt.genSalt(10);
+  
     try {
-      // Kiểm tra nếu trường 'password' được cập nhật
-      if (req.body.password) {
-        // Băm mật khẩu mới trước khi lưu vào cơ sở dữ liệu
-        const hashedPassword = await bcrypt.hash(req.body.password, salt);
-        req.body.password = hashedPassword;
-      }
+    
       const updatedUser = await User.findByIdAndUpdate(
         req.params.id,
         req.body,

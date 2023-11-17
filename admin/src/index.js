@@ -15,6 +15,8 @@ import ThemeContextWrapper from "./components/ThemeWrapper/ThemeWrapper";
 import BackgroundColorWrapper from "./components/BackgroundColorWrapper/BackgroundColorWrapper";
 import ProfilePatient from "views/ProfilePatient";
 import UpdateTour from "views/UpdateTour";
+import AddLocation from "views/AddLocation";
+import AddTour from "views/AddTour";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
@@ -30,6 +32,8 @@ root.render(
           />
           <Route path="/uploaduser/:id" element={<ProfilePatient />} />
           <Route path="/edittour/:id" element={<UpdateTour/>}/>
+          <Route path="/addlocation/:type" element={<AddLocation/>} />
+         <Route path='/addtour' element={<AddTour/> }/>
         </Routes>
         
       </BrowserRouter>

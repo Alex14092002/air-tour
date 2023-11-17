@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-
 import {
   Card,
   CardHeader,
@@ -77,10 +76,11 @@ function Tour() {
     <>
       <div className="content">
         <Row>
+         
+          <Col md="12">
           <div>
             <Link to='/addtour' className="btn btn-danger">Thêm tour</Link>
           </div>
-          <Col md="12">
             <Card>
               <CardBody>
                 <Table className="tablesorter" responsive>

@@ -13,22 +13,30 @@ import {
   Row,
   Col,
 } from "reactstrap";
-import { CKEditor } from "@ckeditor/ckeditor5-react";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-
+import { useRef } from "react";
+import { Editor } from "@tinymce/tinymce-react";
+import { useDropzone } from "react-dropzone";
 function UpdateTour() {
   const { id } = useParams();
-  const [data, setData] = useState({
-    username: "",
-    email: "",
-    phone: "",
-    role: "",
-  });
-
-  const handleEditorChange = (event, editor) => {
-    const data = editor.getData();
-    console.log(data);
+  const [guideData, setGuideData] = useState([]);
+  const [startpoint, setStartPoint] = useState([]);
+  const [endpoint, setEndPoint] = useState([]);
+  const [category, setCategory] = useState([]);
+  const [uploadedImage, setUploadedImage] = useState(null)
+  const [data, setData] = useState({});
+  const editorRef = useRef(null);
+  const log = () => {
+    if (editorRef.current) {
+      console.log(editorRef.current.getContent());
+    }
   };
+  const handleChange = (value) => {
+    setData((prevState) => ({
+      ...prevState,
+      detail: value,
+    }));
+  };
+  
 
   useEffect(() => {
     const getData = async () => {
@@ -39,8 +47,35 @@ function UpdateTour() {
     };
 
     getData();
+
+    const getGuide = async () => {
+      const res = await fetch(`http://localhost:8888/api/user`);
+      const dataAPI = await res.json();
+      setGuideData(dataAPI);
+    };
+    getGuide();
+
+    const getStartPoint = async () => {
+      const res = await fetch(`http://localhost:8888/api/pointstart`);
+      const dataAPI = await res.json();
+      setStartPoint(dataAPI);
+    };
+    getStartPoint();
+
+    const getEndPoint = async () => {
+      const res = await fetch(`http://localhost:8888/api/pointend`);
+      const dataAPI = await res.json();
+      setEndPoint(dataAPI);
+    };
+    getEndPoint();
+
+    const getCategory = async () => {
+      const res = await fetch(`http://localhost:8888/api/category`);
+      const dataAPI = await res.json();
+      setCategory(dataAPI);
+    };
+    getCategory();
   }, []);
-  console.log(data);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -77,23 +112,6 @@ function UpdateTour() {
       alert("Có lỗi xảy ra, vui lòng thử lại sau!");
     }
   };
-  const editorConfiguration = {
-    toolbar: [
-      'heading',
-      'bold',
-      'italic',
-      'link',
-      'bulletedList',
-      'numberedList',
-      'blockQuote',
-      'imageUpload',
-      'undo',
-      'redo',
-      // ...
-      'textAlign',
-    ],
-  };
-  
 
   return (
     <>
@@ -111,7 +129,7 @@ function UpdateTour() {
                       <FormGroup>
                         <label>Tên tour</label>
                         <Input
-                          name="username"
+                          name="name"
                           value={data.name}
                           onChange={handleInputChange}
                           placeholder="Tên tour"
@@ -119,24 +137,85 @@ function UpdateTour() {
                         />
                       </FormGroup>
                     </Col>
-                    <Col className="pl-md-1" md="4">
+                    <Col className="px-md-1" md="3">
                       <FormGroup>
-                        <label htmlFor="exampleInputEmail1">Gía cơ bản</label>
+                        <label>Thời gian tour</label>
                         <Input
-                          name="price"
-                          value={data.price}
+                          name="time"
+                          value={data.time}
                           onChange={handleInputChange}
-                          placeholder="Giá cơ bản"
+                          placeholder="Thời gian "
                           type="text"
                         />
+                      </FormGroup>
+                    </Col>
+                    <Col className="px-md-1" md="3">
+                      <FormGroup>
+                        <label>Ngày bắt đầu</label>
+                        <Input
+                          name="dateStart"
+                          value={data.dateStart}
+                          onChange={handleInputChange}
+                          type="text"
+                        />
+                      </FormGroup>
+                    </Col>
+
+                    <Col className="px-md-1" md="3">
+                      <FormGroup>
+                        <label>Địa điểm bắt đầu</label>
+                        <Input
+                          type="select"
+                          name="locationStart"
+                          onChange={handleInputChange}
+                          value={data.locationStart}
+                          id="exampleSelect"
+                        >
+                          <option>Chọn địa điểm bắt đầu</option>
+                          {startpoint &&
+                            startpoint.map((value) => {
+                              return (
+                                <>
+                                  <option value={value.name}>
+                                    {value.name}
+                                  </option>
+                                </>
+                              );
+                            })}
+                        </Input>
+                      </FormGroup>
+                    </Col>
+
+                    <Col className="px-md-1" md="3">
+                      <FormGroup>
+                        <label>Địa điểm kết thúc</label>
+                        <Input
+                          type="select"
+                          name="locationEnd"
+                          value={data.locationEnd}
+                          onChange={handleInputChange}
+                          id="exampleSelect"
+                        >
+                          <option>Chọn địa điểm kết thúc</option>
+                          {endpoint &&
+                            endpoint.map((value) => {
+                              return (
+                                <>
+                                  <option value={value.name}>
+                                    {value.name}
+                                  </option>
+                                </>
+                              );
+                            })}
+                        </Input>
                       </FormGroup>
                     </Col>
                   </Row>
                   <Row className="d-flex ">
                     <FormGroup className="mx-2">
-                      <label>Giá người già</label>
+                      <label>Giá người lớn</label>
                       <Input
-                        name="text"
+                        name="oldPrice"
                         value={data.oldPrice}
                         onChange={handleInputChange}
                         placeholder="Giá người già"
@@ -147,20 +226,68 @@ function UpdateTour() {
                     <FormGroup>
                       <label>Giá trẻ em</label>
                       <Input
-                        name="username"
+                        name="childrenPrice"
                         value={data.childrenPrice}
                         onChange={handleInputChange}
                         placeholder="tên tài khoản"
                         type="text"
                       />
                     </FormGroup>
+                    <Col className="px-md-1" md="3">
+                      <FormGroup>
+                        <label>Phương tiện</label>
+                        <Input
+                          name="plant"
+                          value={data.plant}
+                          onChange={handleInputChange}
+                          placeholder="Phương tiện"
+                          type="text"
+                        />
+                      </FormGroup>
+                    </Col>
+                    <Col className="px-md-1" md="3">
+                      <FormGroup>
+                        <label>Số lượng khách</label>
+                        <Input
+                          name="maxGuest"
+                          value={data.maxGuest}
+                          onChange={handleInputChange}
+                          placeholder="Số khách tối đa"
+                          type="text"
+                        />
+                      </FormGroup>
+                    </Col>
+                    <Col className="px-md-1" md="3">
+                      <FormGroup>
+                        <label>Số khách người lớn</label>
+                        <Input
+                          name="oldGuest"
+                          value={data.oldGuest}
+                          onChange={handleInputChange}
+                          placeholder="Số khách người lớn"
+                          type="text"
+                        />
+                      </FormGroup>
+                    </Col>
+                    <Col className="px-md-1" md="3">
+                      <FormGroup>
+                        <label>Số khách trẻ em</label>
+                        <Input
+                          name="childGuest"
+                          value={data.childGuest}
+                          onChange={handleInputChange}
+                          placeholder="Số khách người lớn"
+                          type="text"
+                        />
+                      </FormGroup>
+                    </Col>
                   </Row>
                   <Row>
                     <Col className="px-md-1" md="3">
                       <FormGroup>
                         <label>Mô tả</label>
                         <Input
-                          name="username"
+                          name="des"
                           value={data.des}
                           onChange={handleInputChange}
                           placeholder="Mô tả"
@@ -172,20 +299,79 @@ function UpdateTour() {
                       <FormGroup>
                         <label>Hướng dẫn viên nhận tour</label>
                         <Input
+                          type="select"
                           name="idGuide"
                           onChange={handleInputChange}
-                          placeholder="Hướng dẫn viên"
+                          value={data.idGuide}
+                        >
+                          <option>Chọn hướng dẫn viên</option>
+                          {guideData &&
+                            guideData.map((value) => {
+                              if (value.role === "guide") {
+                                return (
+                                  <>
+                                    <option value={value._id}>
+                                      {value.name}
+                                    </option>
+                                  </>
+                                );
+                              }
+                            })}
+                        </Input>
+                      </FormGroup>
+                    </Col>
+
+                    <Col className="px-md-1" md="3">
+                      <FormGroup>
+                        <label>Chọn ảnh cho tour</label>
+                        <Input
+                          name="imgDetail"
+                          value={data.imgDetail}
+                          onChange={handleInputChange}
+                          placeholder="ảnh"
                           type="text"
                         />
                       </FormGroup>
                     </Col>
 
-                    <Col className="px-md-1 my-4" md="3">
-                      <button className="btn btn-danger">
-                        Thiết lập hướng dẫn viên cho tour
-                      </button>
+                    <Col className="px-md-1" md="3">
+                      <FormGroup>
+                        <label>Chọn các địa điểm cho tour</label>
+                        <Input
+                          name="detailLocation"
+                          value={data.detailLocation}
+                          onChange={handleInputChange}
+                          placeholder="các địa điểm"
+                          type="text"
+                        />
+                      </FormGroup>
+                    </Col>
+
+                    <Col className="px-md-1" md="3">
+                      <FormGroup>
+                        <label>Danh mục</label>
+                        <Input
+                          type="select"
+                          name="category"
+                          onChange={handleInputChange}
+                          value={data.category}
+                        >
+                          <option>chọn danh mục</option>
+                          {category &&
+                            category.map((value) => {
+                              return (
+                                <>
+                                  <option value={value._id}>
+                                    {value.name}
+                                  </option>
+                                </>
+                              );
+                            })}
+                        </Input>
+                      </FormGroup>
                     </Col>
                   </Row>
+
                   <Col md="6">
                     <label>Trạng thái</label> <br />
                     <select
@@ -205,18 +391,30 @@ function UpdateTour() {
 
                   <div className="">
                     <h2 className="py-4">Chi tiết tour</h2>
-                    <CKEditor
-                      editor={ClassicEditor}
-                      data={data.detail}
-                      config={ editorConfiguration }
-                      onReady={(editor) => {
-                        editor.editing.view.change((writer) => {});
+                    <Editor
+                     onInit={(evt, editor) => (editorRef.current = editor)}
+                     initialValue={data.detail}
+                      init={{
+                        height: 500,
+                        menubar: false,
+                        plugins: [
+                          "advlist autolink lists link image charmap print preview anchor",
+                          "searchreplace visualblocks code fullscreen",
+                          "insertdatetime media table paste code help wordcount",
+                        ],
+                        toolbar:
+                          "undo redo | formatselect | " +
+                          "bold italic backcolor | alignleft aligncenter " +
+                          "alignright alignjustify | bullist numlist outdent indent | " +
+                          "removeformat | help image" ,
+                        content_style:
+                          "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
                       }}
-                      onChange={(event, editor) => {
-                        const dataCKE = editor.getData();
+
+                      onEditorChange={(content, editor) => {
                         setData((prevState) => ({
                           ...prevState,
-                          detail: dataCKE,
+                          detail: content,
                         }));
                       }}
                     />

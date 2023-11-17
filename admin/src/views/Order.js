@@ -1,7 +1,7 @@
 
 import React from "react";
 import { Link } from "react-router-dom";
-
+import { useState , useEffect } from "react";
 // reactstrap components
 import {
   Card,
@@ -14,6 +14,16 @@ import {
 } from "reactstrap";
 
 function Tables({type}) {
+
+  const [listorder , setOrder ] = useState([])
+  useEffect(()=>{
+    const getData = async () =>{
+      const res = await fetch(`http://localhost:8888/api/order/`)
+      const data = await res.json()
+      console.log(data);
+    }
+    getData()
+  })
   return (
     <>
       <div className="content">
