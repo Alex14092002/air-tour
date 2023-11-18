@@ -101,6 +101,7 @@ function UpdateTour() {
           body: JSON.stringify(data),
         }
       );
+      
 
       if (response.status === 200) {
         alert("Cập nhật thông tin thành công!");

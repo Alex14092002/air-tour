@@ -3,8 +3,7 @@ const TourSchema = new mongoose.Schema(
     { 
         name : {
             type : String,
-            required: true,
-            unique: true,
+            
         },
         time : {
             type : String,
@@ -15,7 +14,7 @@ const TourSchema = new mongoose.Schema(
         locationStart : {
             type: String,
             ref: 'PointStart',
-            required : true
+            
         },
         plant : {
             type : String
@@ -32,23 +31,23 @@ const TourSchema = new mongoose.Schema(
         locationEnd : {
             type: String,
             ref: 'PointEnd',
-            required : true
+            
         },
         des : {
             type : String,
-            required: true,
+            
         },
         childrenPrice : {
             type : Number,
-            required: true,
+            
         },
         oldPrice : {
             type : Number,
-            required: true,
+            
         },
         detail : {
             type : String ,
-            required: true,
+            
         },
         imgDetail : [
             {
@@ -56,6 +55,11 @@ const TourSchema = new mongoose.Schema(
             }
         ],
         detailLocation : [
+            {
+                type: String,
+            }
+        ],
+        listCustomer : [
             {
                 type: String,
             }

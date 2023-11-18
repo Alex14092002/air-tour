@@ -44,10 +44,10 @@ function Tour() {
   console.log(listdata);
 
   const Delete = async (id) => {
-    const confirm = confirm('Bạn có chắc chắn xoá ?')
-    console.log(confirm); 
+    const userConfirmed = window.confirm('Bạn có chắc chắn xoá ?');
+    console.log(userConfirmed); 
     // Create the DELETE request
-    if(confirm){
+    if(userConfirmed){
       const request = new Request(
         `http://localhost:8888/api/tour/delete/${id}`,
         {
@@ -99,12 +99,12 @@ function Tour() {
                         return (
                           <>
                             <tr>
-                              <td>{value.name.slice(0, 20) + "..."}</td>
+                              <td>{value.name}</td>
                               <td>
-                                {value.price.toLocaleString("vi-VN", {
+                                {value.oldPrice.toLocaleString("vi-VN", {
                                   style: "currency",
                                   currency: "VND",
-                                })}
+                                })} 
                               </td>
                               <td>
                                 <img src={value.imgDetail[0]} width={50} />

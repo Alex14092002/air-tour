@@ -17,6 +17,7 @@ import ProfilePatient from "views/ProfilePatient";
 import UpdateTour from "views/UpdateTour";
 import AddLocation from "views/AddLocation";
 import AddTour from "views/AddTour";
+import DetailOrder from "views/DetailOrder";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
@@ -34,6 +35,7 @@ root.render(
           <Route path="/edittour/:id" element={<UpdateTour/>}/>
           <Route path="/addlocation/:type" element={<AddLocation/>} />
          <Route path='/addtour' element={<AddTour/> }/>
+         <Route path='/detailorder/:id' element={<DetailOrder/> }/>
         </Routes>
         
       </BrowserRouter>

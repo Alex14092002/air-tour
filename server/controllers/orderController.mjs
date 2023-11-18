@@ -1,5 +1,5 @@
 import Order from "../models/Order.mjs";
-
+import Tour from "../models/Tour.mjs";
 const orderController = {
   getAllOrders: async (req, res) => {
     try {
@@ -23,24 +23,52 @@ const orderController = {
   updateOrderStatus: async (req, res) => {
     try {
       const { status } = req.body;
-
+  
       if (status === undefined || typeof status !== "boolean") {
         return res.status(400).json({ error: "Trạng thái không hợp lệ" });
       }
-
+  
       const order = await Order.findByIdAndUpdate(
         req.params.id,
         { status },
         { new: true }
       );
+  
+      
       if (!order) {
         return res.status(404).json({ error: "Đơn hàng không tồn tại" });
       }
+      console.log(order.customerInfo[0].full_name);
+      
+      // Lưu idUser vào listCustomer của các tour trong cart
+      await Promise.all(
+        order.cart.map(async (item) => {
+          const tour = await Tour.findById(item.id);
+          
+          if (tour) {
+            // Kiểm tra xem full_name đã tồn tại trong danh sách khách hàng chưa
+            const customerFullName = order.customerInfo[0] ? order.customerInfo[0].full_name : null;
+            
+            if (customerFullName && !tour.listCustomer.includes(customerFullName)) {
+              // Nếu chưa tồn tại, thêm full_name vào danh sách khách hàng
+              tour.listCustomer.push(customerFullName);
+      
+              // Lưu lại tour sau khi cập nhật
+              await tour.save();
+            }
+          }
+        })
+      );
+      
+        
       res.status(200).json(order);
     } catch (error) {
-      res.status(500).json({ error: "Lỗi khi cập nhật trạng thái đơn hàng" });
+      res
+        .status(500)
+        .json({ error: "Lỗi khi cập nhật trạng thái đơn hàng và danh sách khách hàng" });
     }
-  },
+  },  
+
   deleteOrder : async (req, res) => { 
     try {
         const order = await Order.findByIdAndRemove(req.params.id);
@@ -55,15 +83,10 @@ const orderController = {
   registerTour : async (req , res) =>{
     try {
       const newTour = new Order({
+        cart : req.body.cart,
         idUser : req.body.idUser,
-        nameUser : req.body.nameUser,
-        nameTour : req.body.nameTour,
-        phoneUser : req.body.phoneUser,
-        quatityOld : req.body.quatityOld,
-        quatityChild : req.body.quatityChild,
-        quatityNormal : req.body.quatityNormal,
-        dateRegister : req.body.dateRegister,
-        total : req.body.total
+        customerInfo : req.body.customerInfo,
+        payment_method : req.body.payment_method,
       })
   
       const order = await newTour.save();

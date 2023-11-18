@@ -10,5 +10,6 @@ router.patch('/update/:tourId' , tourController.updateTour)
 router.delete('/delete/:tourId' , tourController.deleteTour)
 router.patch('/addguide/:tourId' , tourController.addIdGuide)
 router.get('/guideId/:idguide' , tourController.getTourbyIdguide)
+router.patch('/updatestatus/:tourId' , tourController.updateTourStatus)
 
 export default router

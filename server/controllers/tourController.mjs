@@ -56,7 +56,7 @@ const tourController = {
         const savedTour = await newTour.save();
     
         // Trả về response thành công
-        res.status(201).json({ success: true, tour: savedTour });
+        res.status(200).json({ success: true, tour: savedTour });
       } catch (error) {
         // Xử lý lỗi nếu có
         console.error(error);
@@ -255,6 +255,37 @@ const tourController = {
       } catch (error) {
         res.status(500).json({ error: error.message });
       }
-  }
+  },
+  updateTourStatus: async (req, res) => {
+    try {
+      const tourId = req.params.tourId;
+      const { status } = req.body;
+
+      // Kiểm tra trạng thái có hợp lệ không (nếu bạn có các ràng buộc khác)
+      if (status === undefined || typeof status !== "boolean") {
+        return res.status(400).json({ success: false, error: "Trạng thái không hợp lệ" });
+      }
+
+      // Cập nhật trạng thái của tour
+      const updatedTour = await Tour.findByIdAndUpdate(
+        tourId,
+        { status },
+        { new: true } // Trả về tour đã cập nhật thay vì tour gốc
+      );
+
+      // Kiểm tra xem tour có tồn tại hay không
+      if (!updatedTour) {
+        return res.status(404).json({ success: false, error: "Tour không tồn tại" });
+      }
+
+      // Trả về thông tin của tour sau khi cập nhật
+      res.status(200).json({ success: true, tour: updatedTour });
+    } catch (error) {
+      // Xử lý lỗi nếu có
+      console.error(error);
+      res.status(500).json({ success: false, error: "Internal Server Error" });
+    }
+  },
+
 };
 export default tourController;
