@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect  } from "react";
 import {
   Card,
   CardHeader,
@@ -11,6 +11,7 @@ import {
 } from "reactstrap";
 
 function Tour() {
+
   const Update = async (id) => {
     // Create the DELETE request
     const request = new Request(`http://localhost:8888/api/tour/${id}`, {
@@ -40,87 +41,88 @@ function Tour() {
       setListdata(data);
     };
     getData();
-  }, [listdata]);
-  console.log(listdata);
+  }, []);
+
 
   const Delete = async (id) => {
-    const userConfirmed = window.confirm('Bạn có chắc chắn xoá ?');
-    console.log(userConfirmed); 
+    const userConfirmed = window.confirm("Bạn có chắc chắn xoá ?");
+    console.log(userConfirmed);
     // Create the DELETE request
-    if(userConfirmed){
+    if (userConfirmed) {
       const request = new Request(
         `http://localhost:8888/api/tour/delete/${id}`,
         {
           method: "DELETE",
         }
       );
-    
+
       // Send the request
       const response = await fetch(request);
-    
+
       // Check the response status
       if (response.ok) {
-        console.log('Xoá thành công');
+        console.log("Xoá thành công");
       } else {
         // Show an error message
         alert("Có lỗi xảy ra!");
-       
       }
     } else {
       return;
     }
-  }; 
-  
+  };
 
   return (
     <>
       <div className="content">
         <Row>
-         
           <Col md="12">
-          <div>
-            <Link to='/addtour' className="btn btn-danger">Thêm tour</Link>
-          </div>
+            <div>
+              <Link to="/addtour" className="btn btn-danger">
+                Thêm tour
+              </Link>
+            </div>
             <Card>
               <CardBody>
-                <Table className="tablesorter" responsive>
-                  <thead className="text-primary">
-                    <tr>
-                      <th>Tên tour </th>
-                      <th>Giá cơ bản</th>
-                      <th>Ảnh đại diện</th>
-                      <th>Hành động</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {listdata &&
-                      listdata.map((value, id) => {
-                        
-                        return (
-                          <>
-                            <tr>
-                              <td>{value.name}</td>
-                              <td>
-                                {value.oldPrice.toLocaleString("vi-VN", {
-                                  style: "currency",
-                                  currency: "VND",
-                                })} 
-                              </td>
-                              <td>
-                                <img src={value.imgDetail[0]} width={50} />
-                              </td>
-                              <td className="d-flex ">
-                                <Link to={`/edittour/${value._id}`} className="btn mx-2">Sửa</Link>
-                                <button onClick={()=>Delete(value._id)} className="btn btn-danger mx-2">
-                                  Xoá
-                                </button>
-                              </td>
-                            </tr>
-                          </>
-                        );
-                      })}
-                  </tbody>
-                </Table>
+                <div className="row">
+                  {listdata &&
+                    listdata.map((value, id) => {
+                      return (
+                        <>
+                          <div class="card col-md-4">
+                            <img
+                              src={value.imgDetail[0]}
+                              class="card-img-top"
+                              width="100%"
+                              height="200px"
+                            />
+                            <div class="card-body">
+                              <h5 class="card-title">{value.name}</h5>
+                              <p class="card-text des">
+                                {value.des}
+                              </p>
+                              <h5> {value.oldPrice.toLocaleString("vi-VN", {
+                                style: "currency",
+                                currency: "VND",
+                              })}</h5>
+                              <Link
+                                to={`/edittour/${value._id}`}
+                                className="btn mx-2"
+                              >
+                                Sửa
+                              </Link>
+                              <button
+                                onClick={() => Delete(value._id)}
+                                className="btn btn-danger mx-2"
+                              >
+                                Xoá
+                              </button>
+                            </div>
+                          </div>
+                         
+                        </>
+                      );
+                    })}
+                </div>
               </CardBody>
             </Card>
           </Col>

@@ -19,7 +19,9 @@ const pointEndController = {
       addPointEnd : async(req , res) =>{
         try {
             const NewpointEnd = new endPoint({
-                name : req.body.name
+              name : req.body.name,
+              img : req.body.img,
+              des : req.body.des
             });
              await NewpointEnd.save()
             res.status(200).json(NewpointEnd)

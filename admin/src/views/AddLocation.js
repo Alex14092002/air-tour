@@ -19,7 +19,8 @@ function AddLocation({}) {
   const { type } = useParams();
   const [data, setData] = useState({
     name: "",
-   
+    img : "",
+    des : ""
   });
 
 
@@ -48,6 +49,7 @@ function AddLocation({}) {
 
       if (response.status === 200) {
         alert("thêm địa điểm thành công!");
+        console.log(data);
       } else {
         alert("Có lỗi xảy ra, vui lòng thử lại sau!");
       }
@@ -58,10 +60,7 @@ function AddLocation({}) {
   };
 
 
-  const handleEditorChange = (event, editor) => {
-    const data = editor.getData();
-    console.log(data);
-  };
+
   
   return (
     <>
@@ -74,20 +73,47 @@ function AddLocation({}) {
               </CardHeader>
               <CardBody>
                 <Form onSubmit={handleSubmit}>
-                <Col className="px-md-1" md="3">
+                  <Row>
+                  <Col className="px-md-1" md="3">
                       <FormGroup>
                         <label>Tên điạ điểm</label>
                         <Input
                           name="name"
-                          
                           value={data.name}
-                          onChange={handleInputChange}
-                          placeholder="tên tài khoản"
+                          onChange={handleInputChange}  
+                          placeholder="Tên địa điểm"
                           type="text"
                         />
                       </FormGroup>
                     </Col>
-                 
+                    <Col className="px-md-1" md="3">
+                      <FormGroup>
+                        <label>URL ảnh Địa Điểm</label>
+                        <Input
+                          name="img"
+                          
+                          value={data.img}
+                          onChange={handleInputChange}  
+                          placeholder="url ảnh địa điểm"
+                          type="text"
+                        />
+                        
+                      </FormGroup>
+                    </Col>  
+                    <Col className="px-md-1" md="12">
+                      <FormGroup>
+                        <label>Mô tả địa điểm</label>
+                        <Input
+                          name="des"
+                          value={data.des}
+                          onChange={handleInputChange}  
+                          placeholder="Mô tả địa điểm"
+                          type="text"
+                        />
+                        
+                      </FormGroup>
+                    </Col>  
+                  </Row>
                   <Button className="btn-fill" color="primary" type="submit">
                     Save
                   </Button>

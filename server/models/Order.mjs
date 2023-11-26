@@ -17,6 +17,8 @@ const OrderSchema = new mongoose.Schema({
     cart : {
         type : Object
     }
-});
+},
+{ timestamps: true }
+);
 
 export default mongoose.model('Order', OrderSchema);

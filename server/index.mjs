@@ -9,6 +9,7 @@ import tourRoute from './routes/tourRoute.mjs'
 import orderRoute from './routes/orderRoute.mjs'
 import pointstartRoute from './routes/pointstart.mjs'
 import pointendRoute from './routes/pointend.mjs'
+import VNpayRoute from './routes/VNPayRoute.mjs'
 const app = express();
 const port = 8888;
 dotenv.config()
@@ -37,3 +38,4 @@ app.use('/api/tour' , tourRoute)
 app.use('/api/order' , orderRoute)
 app.use('/api/pointstart', pointstartRoute )
 app.use('/api/pointend', pointendRoute )
+app.use('/api/vnpay' , VNpayRoute)

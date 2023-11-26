@@ -126,6 +126,17 @@ function UpdateTour() {
               <CardBody>
                 <Form onSubmit={handleSubmit}>
                   <Row>
+                  <Col className="px-md-1" md="3">
+                      <FormGroup>
+                        <label>Mã Tour</label>
+                        <Input
+                          name="code"
+                         
+                          onChange={handleInputChange}
+                          type="text"
+                        />
+                      </FormGroup>
+                    </Col>
                     <Col className="px-md-1" md="3">
                       <FormGroup>
                         <label>Tên tour</label>

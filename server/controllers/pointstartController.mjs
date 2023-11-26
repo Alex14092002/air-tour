@@ -19,7 +19,9 @@ const pointStartController = {
       addPointStart : async(req , res) =>{
         try {
             const NewpointStart = new pointStart({
-                name : req.body.name
+                name : req.body.name,
+                img : req.body.img,
+                des : req.body.des
             });
              await NewpointStart.save()
             res.status(200).json(NewpointStart)

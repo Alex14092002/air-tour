@@ -1,5 +1,6 @@
 import Category from "../models/Category.mjs";
 
+
 const categoryController = {
   getAllCategories: async (req, res) => {
     try {
@@ -55,5 +56,9 @@ const categoryController = {
       res.status(500).json({ error: "Lỗi khi xóa tour" });
     }
   },
+
+
+ 
+
 };
 export default categoryController;

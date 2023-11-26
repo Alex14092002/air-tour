@@ -6,7 +6,6 @@ const userSchema = new mongoose.Schema(
         required: true,
         minLength: 3,
         maxLength: 30,
-     
       },
       email: {
         type: String,
@@ -47,7 +46,18 @@ const userSchema = new mongoose.Schema(
       address : {
         type: String,
         required: true,
-      }
+      },
+      recommitList : [
+        {
+          product: { type: mongoose.Types.ObjectId, ref: "Tour" },
+          category: String,
+          oldPrice: Number,
+          buyInPrice: Number,
+          Name: String,
+          imgDetail: String,
+          plant : String
+        },
+      ]
     },
     { timestamps: true }
   );
